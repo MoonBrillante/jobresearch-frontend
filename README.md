@@ -1,54 +1,75 @@
-# React + TypeScript + Vite
+# JobResearch Frontend (React + Vite + TypeScript)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the frontend of the JobResearch full-stack application. It allows users to log in and manage job listings through a clean, interactive interface, and communicates with a Spring Boot backend via JWT-secured REST APIs.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- JWT-based login and protected routes
+- Job listing with MUI DataGrid and detail view
+- Job creation via dialog-based form using controlled components (useState)
+- React Router for SPA navigation
+- React Query (`@tanstack/react-query`) for async operations and caching
+- Built with **Vite** for fast development
+- Deployed on **Vercel**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Tech Stack
+
+- React + TypeScript
+- Vite
+- Material UI (MUI)
+- Axios
+- React Router v6
+- React Query (v4+ from `@tanstack/react-query`)
+
+---
+
+## Project Structure
+
+```
+src/
+├── api/                 # Axios config and job API methods (e.g. jobapi.ts)
+├── components/          # All major UI components (Login, JobList, etc.)
+│   ├── AddJob.tsx
+│   ├── EditJob.tsx
+│   ├── JobDetail.tsx
+│   ├── JobDialogContent.tsx   # Form inputs used in Add/Edit dialogs
+│   ├── JobList.tsx
+│   └── Login.tsx
+├── types.ts             # Type definitions for Job and form templates
+├── App.tsx              # Layout and route configuration
+├── main.tsx             # React entry point with BrowserRouter setup
+├── .env                 # Environment variables
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
+## Backend API
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+This app connects to a RESTful backend build with:
+- Spring Boot
+- PostgreSQL
+- JWT authentication
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+The backend is deployed on Render, and the frontend communicates with it using the base URL specified in the .env file.
+
+---
+
+## React Query Usage
+
+This project uses React Query for managing server state and handling API requests:
+
+- `useQuery` for fetching job details
+- `useMutation` for adding/updating jobs
+- Automatic cache invalidation via `queryClient.invalidateQueries`
+
+---
+
+## Deployment
+
+Frontend: Deployed using Vercel
+
+Backend: Deployed using Render
+
