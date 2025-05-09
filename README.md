@@ -1,10 +1,10 @@
-# JobResearch Frontend (React + Vite + TypeScript)
+# 💻 JobResearch Frontend (React + Vite + TypeScript)
 
 This is the frontend of the JobResearch full-stack application. It allows users to log in and manage job listings through a clean, interactive interface, and communicates with a Spring Boot backend via JWT-secured REST APIs.
 
 ---
 
-## Features
+## ✨ Features
 
 - JWT-based login and protected routes
 - Job listing with MUI DataGrid and detail view
@@ -16,7 +16,7 @@ This is the frontend of the JobResearch full-stack application. It allows users 
 
 ---
 
-## Tech Stack
+## 🧱 Tech Stack
 
 - React + TypeScript
 - Vite
@@ -27,7 +27,7 @@ This is the frontend of the JobResearch full-stack application. It allows users 
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 src/
@@ -46,7 +46,7 @@ src/
 ```
 
 ---
-## Backend API
+## 🔗 Backend API
 
 This app connects to a RESTful backend build with:
 - Spring Boot
@@ -57,7 +57,7 @@ The backend is deployed on Render, and the frontend communicates with it using t
 
 ---
 
-## React Query Usage
+## ⚙️ React Query Usage
 
 This project uses React Query for managing server state and handling API requests:
 
@@ -67,7 +67,7 @@ This project uses React Query for managing server state and handling API request
 
 ---
 
-## Deployment
+## 🚀 Deployment
 
 Frontend: Deployed using Vercel
 
