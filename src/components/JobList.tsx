@@ -8,18 +8,14 @@ import AddJob from './AddJob';
 import { Snackbar } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import EditJob from './EditJob';
-
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
-
-
 
 type JobListProps = {
     logOut?: () => void;
 }
 
 function JobList({ logOut }: JobListProps) {
-
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -28,7 +24,6 @@ function JobList({ logOut }: JobListProps) {
             navigate('/login');
         }
     }, []);
-
 
     const [open, setOpen] = useState(false);
     const queryClient = useQueryClient();
@@ -49,7 +44,6 @@ function JobList({ logOut }: JobListProps) {
         }
     });
 
-
     const columns: GridColDef[] = [
         {
             field: 'position',
@@ -57,39 +51,25 @@ function JobList({ logOut }: JobListProps) {
             width: 150,
             renderCell: (params) => (
                 <span
-                    style={{ color: '#1976d2', 
-                    textDecoration: 'none', 
-                    cursor: 'pointer',
-                    fontWeight: 500
+                    style={{
+                        color: '#1976d2',
+                        textDecoration: 'none',
+                        cursor: 'pointer',
+                        fontWeight: 500
                     }}
                     onClick={(e) => {
-                        e.stopPropagation(); // ⬅️ 避免触发 row click（否则会跳两次）
+                        e.stopPropagation(); // Avoid triggering row click (otherwise it will jump twice)
                         navigate(`/jobs/${params.row.id}`);
                     }}
                 >
                     {params.value}
                 </span>
-
             )
         },
         { field: 'company', headerName: 'Company', width: 150 },
         { field: 'location', headerName: 'Location', width: 150 },
         { field: 'skills', headerName: 'Skills', width: 200 },
-        //{ field: 'tools', headerName: 'Tools', width: 200 },
         { field: 'mode', headerName: 'Mode', width: 120 },
-        //{ field: 'description', headerName: 'Description', width: 200 },
-        /*{
-            field: 'description',
-            headerName: 'Description',
-            width: 200,
-            renderCell: (params: GridRenderCellParams) => (
-                <Tooltip title={<span style={{ fontSize: '16px' }}>{params.value}</span>}>
-                    <span style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        {params.value}
-                    </span>
-                </Tooltip>
-            )
-        },*/
         {
             field: 'description',
             headerName: 'Description',
@@ -102,9 +82,7 @@ function JobList({ logOut }: JobListProps) {
         },
 
         { field: 'status', headerName: 'Status', width: 120 },
-        //{ field: 'source', headerName: 'Source', width: 120 },
         { field: 'postedDate', headerName: 'Posted Date', width: 150 },
-        //{ field: 'notes', headerName: 'Notes', width: 200 },
         {
             field: 'edit',
             headerName: '',
@@ -143,8 +121,6 @@ function JobList({ logOut }: JobListProps) {
 
     ];
 
-
-
     if (!isSuccess) {
         return <span>Loading...</span>;
     }
@@ -167,13 +143,11 @@ function JobList({ logOut }: JobListProps) {
                 autoHeight
                 sx={{
                     '& .MuiDataGrid-columnHeaderTitle': {
-                    fontWeight: 'bold',
-                    zoom: 1.05
+                        fontWeight: 'bold',
+                        zoom: 1.05
                     }
                 }}
             />
-
-
 
             <Snackbar
                 open={open}

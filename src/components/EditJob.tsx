@@ -11,7 +11,6 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import Tooltip from '@mui/material/Tooltip';
 
-
 type FormProps = {
     job: Job;
 }
@@ -25,12 +24,10 @@ function EditJob({ job }: FormProps) {
     const [skillsInput, setSkillsInput] = useState('');
     const [toolsInput, setToolsInput] = useState('');
 
-
     const { mutate } = useMutation<Job, Error, JobEntry>({
         mutationFn: updateJob,
 
         onSuccess: () => {
-            //queryClient.invalidateQueries(["jobs"]);
             queryClient.invalidateQueries({ queryKey: ['jobs'] });
 
         },
@@ -40,7 +37,6 @@ function EditJob({ job }: FormProps) {
     });
 
     const handleClickOpen = () => {
-
         setSkillsInput(job.skills.join(', '));
         setToolsInput(job.tools.join(', '));
 
@@ -66,12 +62,17 @@ function EditJob({ job }: FormProps) {
         setOpen(false);
     };
     const handleSave = () => {
-        const id = editedJob.id;
-        const jobEntry: JobEntry = { job: editedJob, id };
+        const updatedJob = {
+            ...editedJob,
+            skills: skillsInput.split(',').map(s => s.trim()).filter(Boolean),
+            tools: toolsInput.split(',').map(t => t.trim()).filter(Boolean),
+        };
+
+        const jobEntry: JobEntry = { job: updatedJob, id: updatedJob.id };
         mutate(jobEntry);
         setEditedJob(emptyJob);
         setOpen(false);
-    }
+    };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEditedJob({ ...editedJob, [event.target.name]: event.target.value });

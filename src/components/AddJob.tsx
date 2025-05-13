@@ -29,9 +29,9 @@ function AddJob() {
         onError: (err) => {
             if (err.response && err.response.status === 409) {
                 alert("Job with the same data already exists.");
-                console.error("📦 Response data:", err.response.data); // very important
+                console.error("Response data:", err.response.data); // very important
             } else {
-                console.error("❌ AddJob error:", err.response?.data || err.message);
+                console.error("AddJob error:", err.response?.data || err.message);
             }
         },
     });

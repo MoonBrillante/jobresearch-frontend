@@ -30,7 +30,7 @@ function JobDialogContent({
                     <TextField label="Location" name="location" value={job.location} onChange={handleChange} />
                     <TextField
                         label="Skills"
-                        name="skills"
+                        name="skillsInput"
                         value={skillsInput}
                         onChange={(e) => setSkillsInput(e.target.value)}
                     />
