@@ -22,12 +22,13 @@ function JobDetail() {
   return (
     <Box mb = {2} sx={{ padding: 4 }}>
     <Typography variant="h3" gutterBottom>{job.position}</Typography>
-
     <Typography  paragraph><strong>Company:</strong> {job.company}</Typography>
     <Typography  paragraph><strong>Location:</strong> {job.location}</Typography>
-    <Typography  paragraph><strong>Skills:</strong> {job.skills || 'N/A'}</Typography>
+    <Typography paragraph>
+      <strong>Skills:</strong> {Array.isArray(job.skills) ? job.skills.join(', ') : job.skills}
+    </Typography>
     <Typography  paragraph><strong>Mode:</strong> {job.mode}</Typography>
-    <Typography  paragraph><strong>Description:</strong> {job.description}</Typography>
+    <Typography  paragraph><strong>Description:</strong> {job.description}</Typography>    
     <Typography  paragraph><strong>Status:</strong> {job.status}</Typography>
     <Typography  paragraph><strong>Posted Date:</strong> {job.postedDate}</Typography>
     
