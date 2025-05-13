@@ -26,14 +26,11 @@ function JobDetail() {
     <Typography  paragraph><strong>Company:</strong> {job.company}</Typography>
     <Typography  paragraph><strong>Location:</strong> {job.location}</Typography>
     <Typography  paragraph><strong>Skills:</strong> {job.skills || 'N/A'}</Typography>
-    <Typography  paragraph><strong>Tools:</strong> {job.tools || 'N/A'}</Typography>
     <Typography  paragraph><strong>Mode:</strong> {job.mode}</Typography>
     <Typography  paragraph><strong>Description:</strong> {job.description}</Typography>
-    <Typography  paragraph><strong>Benefits:</strong> {job.benefits || 'N/A'}</Typography>
     <Typography  paragraph><strong>Status:</strong> {job.status}</Typography>
     <Typography  paragraph><strong>Posted Date:</strong> {job.postedDate}</Typography>
-    <Typography  paragraph><strong>Notes:</strong> {job.notes || '—'}</Typography>
-
+    
     <Button
       variant="outlined"
       startIcon={<ArrowBackIcon />}
