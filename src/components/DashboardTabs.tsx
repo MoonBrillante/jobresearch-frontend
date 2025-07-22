@@ -64,9 +64,21 @@ export default function DashboardTabs() {
             map.set(groupKey, (map.get(groupKey) || 0) + 1);
         });
 
+         // Sorting logic
+        const grouped = Array.from(map.entries());
+        const sorted = grouped.sort((a, b) => {
+        // If it is a date, it is in ascending order by time; otherwise, it is in ascending order by string
+        if (key === 'postedDate') {
+            return new Date(a[0]).getTime() - new Date(b[0]).getTime();
+        } else {
+            return a[0].localeCompare(b[0]);
+        }
+    });
+
+
         return {
-            labels: Array.from(map.keys()),
-            counts: Array.from(map.values()),
+            labels: sorted.map(([label]) => label),
+            counts: sorted.map(([, count]) => count),
         };
     };
 

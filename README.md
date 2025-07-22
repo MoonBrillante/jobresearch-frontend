@@ -10,6 +10,7 @@ This is the frontend of the JobResearch full-stack application. It allows users 
 - Job listing with MUI DataGrid and detail view
 - Job creation via dialog-based form using controlled components (useState)
 - React Router for SPA navigation
+- Dashboard with interactive charts (Bar, Pie) for data insights
 - React Query (`@tanstack/react-query`) for async operations and caching
 - Built with **Vite** for fast development
 - Deployed on **Vercel**
@@ -24,6 +25,8 @@ This is the frontend of the JobResearch full-stack application. It allows users 
 - Axios
 - React Router v6
 - React Query (v4+ from `@tanstack/react-query`)
+- Chart.js & react-chartjs-2 for dashboard charts
+- date-fns (date manipulation)
 
 ---
 
@@ -34,6 +37,7 @@ src/
 ├── api/                 # Axios config and job API methods (e.g. jobapi.ts)
 ├── components/          # All major UI components (Login, JobList, etc.)
 │   ├── AddJob.tsx
+│   ├── DashboardTabs.tsx    # 📊 Chart dashboard with Bar and Pie charts
 │   ├── EditJob.tsx
 │   ├── JobDetail.tsx
 │   ├── JobDialogContent.tsx   # Form inputs used in Add/Edit dialogs
@@ -64,6 +68,17 @@ This project uses React Query for managing server state and handling API request
 - `useQuery` for fetching job details
 - `useMutation` for adding/updating jobs
 - Automatic cache invalidation via `queryClient.invalidateQueries`
+
+---
+
+## 📊 Dashboard Charts
+
+The dashboard visualizes job application data in 4 tabs:
+
+- `By Date`: Bar chart of applications per day
+- `By Company`: Bar chart of applications grouped by company
+- `By Position`: Bar chart of applications by position
+- `By Status`: Pie chart showing application status breakdown (e.g., Applied, Rejected, Offer)
 
 ---
 
