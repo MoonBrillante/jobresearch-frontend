@@ -136,7 +136,7 @@ function JobList({ logOut }: JobListProps) {
         <>
             <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <AddJob />
-                <Button onClick={goToDashboard}>Dashboard</Button>
+                <Button onClick={goToDashboard}>📊 Dashboard</Button>
                 <Button onClick={logOut}>Log out</Button>
             </Stack>
             <DataGrid
