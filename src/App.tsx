@@ -8,6 +8,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import JobList from './components/JobList';
 import JobDetail from './components/JobDetail';
+import DashboardTabs from './components/DashboardTabs'
 
 const queryClient = new QueryClient();
 
@@ -28,7 +29,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/jobs" element={<JobList />} />
           <Route path="/jobs/:id" element={<JobDetail />} />
-          
+          <Route path="/dashboard" element={<DashboardTabs />} />
+
         </Routes>
       </QueryClientProvider>
     </Container>

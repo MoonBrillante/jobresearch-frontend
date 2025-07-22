@@ -128,10 +128,15 @@ function JobList({ logOut }: JobListProps) {
         return <span>error when fatching jobs...</span>
     }
 
+    const goToDashboard = () => {
+        navigate('/dashboard');
+    };
+
     return (
         <>
             <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <AddJob />
+                <Button onClick={goToDashboard}>Dashboard</Button>
                 <Button onClick={logOut}>Log out</Button>
             </Stack>
             <DataGrid

@@ -53,3 +53,4 @@ export const getJobById = async (id: number): Promise<Job> => {
     const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/jobs/${id}`, getAxiosConfig());
     return response.data;
 }
+
