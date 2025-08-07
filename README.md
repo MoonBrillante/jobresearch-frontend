@@ -1,6 +1,7 @@
 # 💻 JobResearch Frontend (React + Vite + TypeScript)
 
 This is the frontend of the JobResearch full-stack application. It allows users to log in and manage job listings through a clean, interactive interface, and communicates with a Spring Boot backend via JWT-secured REST APIs.
+It also features a dashboard with interactive charts for visualizing job application data.
 
 ---
 
