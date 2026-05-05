@@ -11,7 +11,7 @@ It also features a dashboard with interactive charts for visualizing job applica
 - Job listing with MUI DataGrid and detail view
 - Job creation via dialog-based form using controlled components (useState)
 - React Router for SPA navigation
-- Dashboard with interactive charts (Bar, Pie) for data insights
+- Dashboard with summary cards, top skills, target roles, and work mode insights
 - React Query (`@tanstack/react-query`) for async operations and caching
 - Built with **Vite** for fast development
 - Deployed on **Vercel**
@@ -27,7 +27,6 @@ It also features a dashboard with interactive charts for visualizing job applica
 - React Router v6
 - React Query (v4+ from `@tanstack/react-query`)
 - Chart.js & react-chartjs-2 for dashboard charts
-- date-fns (date manipulation)
 
 ---
 
@@ -38,7 +37,7 @@ src/
 ├── api/                 # Axios config and job API methods (e.g. jobapi.ts)
 ├── components/          # All major UI components (Login, JobList, etc.)
 │   ├── AddJob.tsx
-│   ├── DashboardTabs.tsx    # 📊 Chart dashboard with Bar and Pie charts
+│   ├── DashboardTabs.tsx    # Dashboard insights with summary cards, skills, target roles, and work mode charts
 │   ├── EditJob.tsx
 │   ├── JobDetail.tsx
 │   ├── JobDialogContent.tsx   # Form inputs used in Add/Edit dialogs
@@ -53,7 +52,7 @@ src/
 ---
 ## 🔗 Backend API
 
-This app connects to a RESTful backend build with:
+This app connects to a RESTful backend built with:
 - Spring Boot
 - PostgreSQL
 - JWT authentication
@@ -72,14 +71,16 @@ This project uses React Query for managing server state and handling API request
 
 ---
 
-## 📊 Dashboard Charts
+## 📊 Dashboard Insights
 
-The dashboard visualizes job application data in 4 tabs:
+The dashboard summarizes job application data in 4 tabs:
 
-- `By Date`: Bar chart of applications per day
-- `By Company`: Bar chart of applications grouped by company
-- `By Position`: Bar chart of applications by position
-- `By Status`: Pie chart showing application status breakdown (e.g., Applied, Rejected, Offer)
+- `Summary`: Shows total applications, top target role, top skill, and top work mode
+- `Top Skills`: Bar chart showing the most common skills across saved job records
+- `Target Roles`: Bar chart showing the most frequent job positions
+- `Work Mode`: Pie chart showing the distribution of remote, hybrid, and onsite roles
+
+The dashboard fetches job data from the backend API with React Query, transforms the data on the frontend, and renders visual insights with Chart.js.
 
 ---
 
