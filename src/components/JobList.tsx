@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getJobs, deleteJob } from '../api/jobapi';  // Requests in the API documentation
+import { getJobsPaged, deleteJob } from '../api/jobapi';  // Requests in the API documentation
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { DataGrid, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridSortModel, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
 import AddJob from './AddJob';
 import { Snackbar } from '@mui/material';
 import Stack from '@mui/material/Stack';
@@ -16,6 +16,19 @@ type JobListProps = {
 }
 
 function JobList({ logOut }: JobListProps) {
+    const [paginationModel, setPaginationModel] = useState({
+        page: 0,
+        pageSize: 10,
+    });
+
+    const [sortModel, setSortModel] = useState<GridSortModel>([
+        {
+            field: "postedDate",
+            sort: "desc",
+        },
+    ]);
+
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -28,16 +41,24 @@ function JobList({ logOut }: JobListProps) {
     const [open, setOpen] = useState(false);
     const queryClient = useQueryClient();
 
+    const sort = sortModel[0];
+
     const { data, error, isSuccess } = useQuery({
-        queryKey: ["jobs"],
-        queryFn: getJobs,
+        queryKey: ["jobsPaged", paginationModel, sortModel],
+        queryFn: () => getJobsPaged({
+            page: paginationModel.page,
+            size: paginationModel.pageSize,
+            sortBy: sort?.field || "postedDate",
+            sortDir: sort?.sort || "desc",
+        })
     });
 
     const mutation = useMutation({
         mutationFn: deleteJob,
         onSuccess: () => {
             setOpen(true);
-            queryClient.invalidateQueries({ queryKey: ['jobs'] });
+            queryClient.invalidateQueries({ queryKey: ['jobsPaged'] });
+            queryClient.invalidateQueries({ queryKey: ['jobs'] })
         },
         onError: (err) => {
             console.error(err);
@@ -121,12 +142,12 @@ function JobList({ logOut }: JobListProps) {
 
     ];
 
-    if (!isSuccess) {
+    if (error) {
+        return <span>error when fetching jobs...</span>
+    } else if (!isSuccess) {
         return <span>Loading...</span>;
     }
-    else if (error) {
-        return <span>error when fatching jobs...</span>
-    }
+
 
     const goToDashboard = () => {
         navigate('/dashboard');
@@ -140,8 +161,17 @@ function JobList({ logOut }: JobListProps) {
                 <Button onClick={logOut}>Log out</Button>
             </Stack>
             <DataGrid
-                rows={data || []}
+                rows={data?.content || []}
                 columns={columns}
+                rowCount={data?.totalElements ?? 0}
+                paginationMode="server"
+                sortingMode="server"
+                paginationModel={paginationModel}
+                onPaginationModelChange={setPaginationModel}
+                sortModel={sortModel}
+                onSortModelChange={setSortModel}
+                pageSizeOptions={[10, 20, 50]}
+
                 disableRowSelectionOnClick={true}
                 getRowId={(row) => row.id}
                 slots={{ toolbar: GridToolbar }}

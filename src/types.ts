@@ -15,6 +15,14 @@ export type Job = {
   notes: string;             // Personal notes or comments
 };
 
+export type PaginatedJobsResponse = {
+    content: Job[];
+    totalElements: number;
+    totalPages: number;
+    size: number;
+    number: number;
+};
+
 // Combines a Job object with its ID for update operations
 export type JobEntry = {
   job: Job;                  // The job data to be updated
@@ -37,3 +45,4 @@ export const emptyJob: Job = {
   postedDate: '',
   notes: '',
 };
+

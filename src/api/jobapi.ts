@@ -1,5 +1,7 @@
-import {Job, JobEntry } from '../types';
+import { Job, JobEntry,PaginatedJobsResponse } from '../types';
 import axios, { AxiosRequestConfig } from 'axios';
+
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 const getAxiosConfig = (): AxiosRequestConfig => {
     const token = sessionStorage.getItem("jwt");
@@ -10,10 +12,10 @@ const getAxiosConfig = (): AxiosRequestConfig => {
     }
 
     return {
-        withCredentials: true, 
+        withCredentials: true,
         headers: {
             'Authorization': token ? `Bearer ${token}` : "",
-        // If there is not token, Authorization will be empty
+            // If there is not token, Authorization will be empty
             'Content-Type': 'application/json',
         },
     };
@@ -21,15 +23,14 @@ const getAxiosConfig = (): AxiosRequestConfig => {
 
 // Fetch all jobs
 export const getJobs = async (): Promise<Job[]> => {
-    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/jobs`, getAxiosConfig());
+    const response = await axios.get(`${BASE_URL}/api/jobs`, getAxiosConfig());
     return response.data;
-
-}
+};
 
 // Delete a job by ID (used in /api/jobs/:id)
 export const deleteJob = async (id: number): Promise<void> => {
     try {
-        await axios.delete(`${import.meta.env.VITE_API_URL}/api/jobs/${id}`, getAxiosConfig());
+        await axios.delete(`${BASE_URL}/api/jobs/${id}`, getAxiosConfig());
     } catch (error) {
         console.error("Error deleting job: ", error);
         throw error;  // Throw an error for upper layer processing
@@ -38,19 +39,35 @@ export const deleteJob = async (id: number): Promise<void> => {
 
 // Add a new job
 export const addJob = async (job: Omit<Job, 'id'>): Promise<Job> => {
-    const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/jobs`, job, getAxiosConfig());
+    const response = await axios.post(`${BASE_URL}/api/jobs`, job, getAxiosConfig());
     return response.data;
 }
 
 // Update an existing job by ID
 export const updateJob = async (jobEntry: JobEntry): Promise<Job> => {
-    const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/jobs/${jobEntry.id}`, jobEntry.job, getAxiosConfig());
+    const response = await axios.put(`${BASE_URL}/api/jobs/${jobEntry.id}`, jobEntry.job, getAxiosConfig());
     return response.data;
 }
 
 // Fetch a job by ID
 export const getJobById = async (id: number): Promise<Job> => {
-    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/jobs/${id}`, getAxiosConfig());
+    const response = await axios.get(`${BASE_URL}/api/jobs/${id}`, getAxiosConfig());
     return response.data;
 }
 
+export const getJobsPaged = async(params: {
+    page: number;
+    size: number;
+    sortBy?: string;
+    sortDir?: string;
+}): Promise<PaginatedJobsResponse> => {
+    const response = await axios.get(
+        `${BASE_URL}/api/jobs/search`,
+        {
+            ...getAxiosConfig(),
+            params,
+        }
+    );
+
+    return response.data;
+}
