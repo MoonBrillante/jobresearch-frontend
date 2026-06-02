@@ -1,20 +1,19 @@
-# 💻 JobResearch Frontend (React + Vite + TypeScript)
+# 💻 Job Market Tracker (React + Vite + TypeScript)
 
-This is the frontend of the JobResearch full-stack application. It allows users to log in and manage job listings through a clean, interactive interface, and communicates with a Spring Boot backend via JWT-secured REST APIs.
-It also features a dashboard with interactive charts for visualizing job application data.
+Job Market Tracker is a full-stack web application designed to organize job opportunities, track application progress, and analyze job market data in one place. The frontend provides a clean interface for managing job listings, reviewing application status, and viewing dashboard insights such as top skills, target roles, and work mode distribution. It connects to a Spring Boot backend through JWT-secured REST APIs.
 
 ---
 
 ## ✨ Features
 
-- JWT-based login and protected routes
-- Job listing with MUI DataGrid and detail view
-- Job creation via dialog-based form using controlled components (useState)
-- React Router for SPA navigation
-- Dashboard with summary cards, top skills, target roles, and work mode insights
-- React Query (`@tanstack/react-query`) for async operations and caching
-- Built with **Vite** for fast development
-- Deployed on **Vercel**
+- JWT-based authentication with protected routes
+- Job management table with MUI DataGrid and detail view
+- Dialog-based create and edit flows for managing job records
+- Server-side pagination for handling larger job datasets efficiently
+- Dashboard with summary cards, application status, top skills, target roles, and work mode insights
+- React Query for API data fetching, async state management, and caching
+- SPA navigation with React Router
+- Frontend deployed on Vercel
 
 ---
 
@@ -37,7 +36,7 @@ src/
 ├── api/                 # Axios config and job API methods (e.g. jobapi.ts)
 ├── components/          # All major UI components (Login, JobList, etc.)
 │   ├── AddJob.tsx
-│   ├── DashboardTabs.tsx    # Dashboard insights with summary cards, skills, target roles, and work mode charts
+│   ├── DashboardTabs.tsx    # Dashboard insights for tracked jobs, skills, target roles, and work modes
 │   ├── EditJob.tsx
 │   ├── JobDetail.tsx
 │   ├── JobDialogContent.tsx   # Form inputs used in Add/Edit dialogs
@@ -63,7 +62,7 @@ The backend is deployed on Render, and the frontend communicates with it using t
 
 ## ⚙️ React Query Usage
 
-This project uses React Query for managing server state and handling API requests:
+This project uses React Query to manage server state, API requests, and cache updates across the job management workflow:
 
 - `useQuery` for fetching job details
 - `useMutation` for adding/updating jobs
@@ -73,9 +72,9 @@ This project uses React Query for managing server state and handling API request
 
 ## 📊 Dashboard Insights
 
-The dashboard summarizes job application data in 4 tabs:
+The dashboard summarizes tracked job data in 4 tabs:
 
-- `Summary`: Shows total applications, top target role, top skill, and top work mode
+- `Summary`: Shows total tracked jobs, top target role, top skill, and top work mode
 - `Top Skills`: Bar chart showing the most common skills across saved job records
 - `Target Roles`: Bar chart showing the most frequent job positions
 - `Work Mode`: Pie chart showing the distribution of remote, hybrid, and onsite roles

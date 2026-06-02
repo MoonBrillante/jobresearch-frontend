@@ -122,7 +122,7 @@ export default function DashboardTabs() {
     const topWorkMode = getTopLabel(byMode.labels);
     const summaryCards = [
         {
-            title: 'Total Applications',
+            title: 'Total Tracked Jobs',
             value: totalApplications,
         },
         {
@@ -152,7 +152,7 @@ export default function DashboardTabs() {
                     onClick={() => navigate("/jobs")}
                     sx={{ textTransform: "none" }}
                 >
-                    Back to Jobs
+                Back to Job List
                 </Button>
 
                 <Tabs value={tab} onChange={(_, newVal) => setTab(newVal)} centered>
