@@ -19,7 +19,7 @@ function App() {
       <AppBar position="static" sx={{ bgcolor: 'warning.main' }}>
         <Toolbar>
           <Typography variant="h5">
-            Job Market Tracker
+            Job Research Application
           </Typography>
         </Toolbar>
       </AppBar>

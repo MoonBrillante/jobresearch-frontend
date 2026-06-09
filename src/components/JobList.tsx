@@ -155,7 +155,11 @@ function JobList({ logOut }: JobListProps) {
 
     return (
         <>
-            <Stack direction="row" alignItems="center" justifyContent="space-between">
+            <Stack direction="row" alignItems="center" justifyContent="space-between" 
+            sx={{"& .MuiButton-root": {
+                textTransform: "none",
+                                    },
+                }}>
                 <AddJob />
                 <Button onClick={goToDashboard}>📊 Dashboard</Button>
                 <Button onClick={logOut}>Log out</Button>
@@ -180,7 +184,10 @@ function JobList({ logOut }: JobListProps) {
                     '& .MuiDataGrid-columnHeaderTitle': {
                         fontWeight: 'bold',
                         zoom: 1.05
-                    }
+                    },
+                    '& .MuiDataGrid-toolbarContainer .MuiButton-root': {
+                        textTransform: 'none',
+                    },
                 }}
             />
 

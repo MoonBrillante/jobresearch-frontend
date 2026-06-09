@@ -122,7 +122,7 @@ export default function DashboardTabs() {
     const topWorkMode = getTopLabel(byMode.labels);
     const summaryCards = [
         {
-            title: 'Total Tracked Jobs',
+            title: 'Total Jobs',
             value: totalApplications,
         },
         {
@@ -155,7 +155,14 @@ export default function DashboardTabs() {
                 Back to Job List
                 </Button>
 
-                <Tabs value={tab} onChange={(_, newVal) => setTab(newVal)} centered>
+                <Tabs 
+                    value={tab} 
+                    onChange={(_, newVal) => setTab(newVal)} 
+                    centered 
+                    sx={{"& .MuiTab-root": {
+                        textTransform: "none",
+                                            },
+                        }}>
                     <Tab label="📌 Summary" />
                     <Tab label="🛠️ Top Skills" />
                     <Tab label="💼 Target Roles" />

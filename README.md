@@ -1,6 +1,8 @@
-# 💻 Job Market Tracker (React + Vite + TypeScript)
+# 💻 Job Research Application (React + Vite + TypeScript)
 
-Job Market Tracker is a full-stack web application designed to organize job opportunities, track application progress, and analyze job market data in one place. The frontend provides a clean interface for managing job listings, reviewing application status, and viewing dashboard insights such as top skills, target roles, and work mode distribution. It connects to a Spring Boot backend through JWT-secured REST APIs.
+Job Research Application is a full-stack web app for organizing and researching job opportunities.
+
+It provides a React frontend where users can create, view, edit, and delete job records, access detailed job information, and explore dashboard insights including total jobs, top skills, target roles, and work mode distribution. The frontend communicates with a Spring Boot backend via REST APIs, with JWT-based authentication and server-side pagination and sorting for the job list.
 
 ---
 
@@ -8,7 +10,7 @@ Job Market Tracker is a full-stack web application designed to organize job oppo
 
 - JWT-based authentication with protected routes
 - Job management table with MUI DataGrid and detail view
-- Dialog-based create and edit flows for managing job records
+- Dialog-based create, edit, and delete flows for managing job records
 - Server-side pagination for handling larger job datasets efficiently
 - Dashboard with summary cards, application status, top skills, target roles, and work mode insights
 - React Query for API data fetching, async state management, and caching
@@ -36,7 +38,7 @@ src/
 ├── api/                 # Axios config and job API methods (e.g. jobapi.ts)
 ├── components/          # All major UI components (Login, JobList, etc.)
 │   ├── AddJob.tsx
-│   ├── DashboardTabs.tsx    # Dashboard insights for tracked jobs, skills, target roles, and work modes
+│   ├── DashboardTabs.tsx    # Dashboard views for summary cards, top skills, target roles, and work mode distribution
 │   ├── EditJob.tsx
 │   ├── JobDetail.tsx
 │   ├── JobDialogContent.tsx   # Form inputs used in Add/Edit dialogs
@@ -72,10 +74,10 @@ This project uses React Query to manage server state, API requests, and cache up
 
 ## 📊 Dashboard Insights
 
-The dashboard summarizes tracked job data in 4 tabs:
+The dashboard summarizes job records across 4 tabs:
 
-- `Summary`: Shows total tracked jobs, top target role, top skill, and top work mode
-- `Top Skills`: Bar chart showing the most common skills across saved job records
+- `Summary`: Shows total jobs, top target role, top skill, and top work mode
+- `Top Skills`: Bar chart showing the most common skills across job records
 - `Target Roles`: Bar chart showing the most frequent job positions
 - `Work Mode`: Pie chart showing the distribution of remote, hybrid, and onsite roles
 

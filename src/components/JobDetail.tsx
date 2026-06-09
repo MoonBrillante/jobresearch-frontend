@@ -36,9 +36,9 @@ function JobDetail() {
       variant="outlined"
       startIcon={<ArrowBackIcon />}
       onClick={() => navigate('/jobs')}
-      sx={{ mt: 2 }}
+      sx={{ mt: 2, textTransform: 'none' }}
     >
-      Back
+      Back to Job List
     </Button>
   </Box>
     );
