@@ -11,11 +11,7 @@ import EditJob from './EditJob';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 
-type JobListProps = {
-    logOut?: () => void;
-}
-
-function JobList({ logOut }: JobListProps) {
+function JobList() {
     const [paginationModel, setPaginationModel] = useState({
         page: 0,
         pageSize: 10,
@@ -162,7 +158,6 @@ function JobList({ logOut }: JobListProps) {
                 }}>
                 <AddJob />
                 <Button onClick={goToDashboard}>📊 Dashboard</Button>
-                <Button onClick={logOut}>Log out</Button>
             </Stack>
             <DataGrid
                 rows={data?.content || []}
