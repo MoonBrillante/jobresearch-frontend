@@ -1,21 +1,15 @@
-import { Job, JobEntry,PaginatedJobsResponse } from '../types';
+import { Job, JobEntry, PaginatedJobsResponse } from '../types';
 import axios, { AxiosRequestConfig } from 'axios';
 
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 const getAxiosConfig = (): AxiosRequestConfig => {
     const token = sessionStorage.getItem("jwt");
-    if (!token) {
-        console.error("No token found in sessionStorage.");
-    } else {
-        console.log("Using JWT Token from sessionStorage:", token);
-    }
 
     return {
         withCredentials: true,
         headers: {
             'Authorization': token ? `Bearer ${token}` : "",
-            // If there is not token, Authorization will be empty
             'Content-Type': 'application/json',
         },
     };
@@ -55,7 +49,7 @@ export const getJobById = async (id: number): Promise<Job> => {
     return response.data;
 }
 
-export const getJobsPaged = async(params: {
+export const getJobsPaged = async (params: {
     page: number;
     size: number;
     sortBy?: string;
