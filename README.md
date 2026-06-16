@@ -35,19 +35,24 @@ It provides a React frontend where users can create, view, edit, and delete job 
 
 ```
 src/
-├── api/                 # Axios config and job API methods (e.g. jobapi.ts)
-├── components/          # All major UI components (Login, JobList, etc.)
+├── api/                 # Axios config and job API methods
+├── components/          # Main UI components
+│   ├── layout/          # Shared layout and route protection
+│   │   ├── AppLayout.tsx
+│   │   └── ProtectedRoute.tsx
 │   ├── AddJob.tsx
-│   ├── DashboardTabs.tsx    # Dashboard views for summary cards, top skills, target roles, and work mode distribution
+│   ├── DashboardTabs.tsx    # Dashboard insights and charts
 │   ├── EditJob.tsx
 │   ├── JobDetail.tsx
 │   ├── JobDialogContent.tsx   # Form inputs used in Add/Edit dialogs
 │   ├── JobList.tsx
 │   └── Login.tsx
-├── types.ts             # Type definitions for Job and form templates
-├── App.tsx              # Layout and route configuration
-├── main.tsx             # React entry point with BrowserRouter setup
-├── .env                 # Environment variables
+├── contexts/
+│   └── AuthContext.tsx    # JWT auth state, login, and logout
+├── jobConstants.ts      # Shared job default values
+├── types.ts             # Job-related TypeScript types
+├── App.tsx              # Application routes
+└── main.tsx             # React entry point and global providers               
 ```
 
 ---
