@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getJobsPaged, deleteJob } from '../api/jobapi';  // Requests in the API documentation
+import { getJobsPaged, deleteJob } from '../api/jobapi';  
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { DataGrid, GridSortModel, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
@@ -24,15 +24,7 @@ function JobList() {
         },
     ]);
 
-
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const token = sessionStorage.getItem("jwt");
-        if (!token) {
-            navigate('/login');
-        }
-    }, []);
 
     const [open, setOpen] = useState(false);
     const queryClient = useQueryClient();
@@ -135,7 +127,6 @@ function JobList() {
                 </IconButton>
             )
         },
-
     ];
 
     if (error) {
@@ -143,7 +134,6 @@ function JobList() {
     } else if (!isSuccess) {
         return <span>Loading...</span>;
     }
-
 
     const goToDashboard = () => {
         navigate('/dashboard');
@@ -170,7 +160,6 @@ function JobList() {
                 sortModel={sortModel}
                 onSortModelChange={setSortModel}
                 pageSizeOptions={[10, 20, 50]}
-
                 disableRowSelectionOnClick={true}
                 getRowId={(row) => row.id}
                 slots={{ toolbar: GridToolbar }}
@@ -194,6 +183,5 @@ function JobList() {
         </>
     )
 }
-
 
 export default JobList;

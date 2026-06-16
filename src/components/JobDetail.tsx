@@ -1,5 +1,5 @@
-import { useParams,useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { getJobById } from '../api/jobapi'; 
 import { Box, Typography, Button } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -7,20 +7,27 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 function JobDetail() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
-  const [job, setJob] = useState<any>(null);
-
-  useEffect(() => {
-    if (id) {
-      getJobById(Number(id)).then(data => setJob(data));
-    }
-  }, [id]);
-
-  if (!job) {
+  
+  const { data: job, isLoading, error } = useQuery({
+      queryKey: ['job', id],
+      queryFn: () => getJobById(Number(id)),
+      enabled: !!id,
+  });
+  
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
+  if(error){
+    return <div>Error loading job detail.</div>;
+  }  
+  
+  if (!job) {
+  return <div>Job not found.</div>;
+  }
+
   return (
-    <Box mb = {2} sx={{ padding: 4 }}>
+    <Box mb={2} sx={{ padding: 4 }}>
     <Typography variant="h3" gutterBottom>{job.position}</Typography>
     <Typography  paragraph><strong>Company:</strong> {job.company}</Typography>
     <Typography  paragraph><strong>Location:</strong> {job.location}</Typography>
