@@ -5,7 +5,8 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import JobDialogContent from './JobDialogContent';
-import { Job, emptyJob } from '../types';
+import { Job} from '../types';
+import { emptyJob } from '../jobConstants';
 import { AxiosError } from 'axios';
 import Button from '@mui/material/Button';
 
