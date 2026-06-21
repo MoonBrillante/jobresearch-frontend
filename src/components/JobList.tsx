@@ -1,6 +1,6 @@
 import { useState} from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getJobsPaged, deleteJob } from '../api/jobapi';  
+import { getPaginatedJobs, deleteJob } from '../api/jobapi';  
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { DataGrid, GridSortModel, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
@@ -33,7 +33,7 @@ function JobList() {
 
     const { data, error, isSuccess } = useQuery({
         queryKey: ["jobsPaged", paginationModel, sortModel],
-        queryFn: () => getJobsPaged({
+        queryFn: () => getPaginatedJobs({
             page: paginationModel.page,
             size: paginationModel.pageSize,
             sortBy: sort?.field || "postedDate",

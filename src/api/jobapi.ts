@@ -49,14 +49,14 @@ export const getJobById = async (id: number): Promise<Job> => {
     return response.data;
 }
 
-export const getJobsPaged = async (params: {
+export const getPaginatedJobs = async (params: {
     page: number;
     size: number;
     sortBy?: string;
     sortDir?: string;
 }): Promise<PaginatedJobsResponse> => {
     const response = await axios.get(
-        `${BASE_URL}/api/jobs/search`,
+        `${BASE_URL}/api/jobs/page`,
         {
             ...getAxiosConfig(),
             params,
