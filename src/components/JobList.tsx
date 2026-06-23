@@ -1,11 +1,11 @@
-import { useState} from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getPaginatedJobs, deleteJob } from '../api/jobapi';  
+import { useState, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient, keepPreviousData } from '@tanstack/react-query';
+import { getFilteredJobs, deleteJob } from '../api/jobapi';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { DataGrid, GridSortModel, GridColDef, GridRenderCellParams, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridSortModel, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import AddJob from './AddJob';
-import { Snackbar } from '@mui/material';
+import { Snackbar, TextField, MenuItem } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import EditJob from './EditJob';
 import Button from '@mui/material/Button';
@@ -24,6 +24,26 @@ function JobList() {
         },
     ]);
 
+    const [jumpToPage, setJumpToPage] = useState("");
+
+    const [filters, setFilters] = useState({
+        position: "",
+        company: "",
+        location: "",
+        mode: "",
+        status: "",
+    });
+
+    const [debouncedFilters, setDebouncedFilters] = useState(filters);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedFilters(filters);
+            setPaginationModel((prev) => ({ ...prev, page: 0 }));
+        }, 400);
+        return () => clearTimeout(timer);
+    }, [filters]);
+
     const navigate = useNavigate();
 
     const [open, setOpen] = useState(false);
@@ -32,20 +52,26 @@ function JobList() {
     const sort = sortModel[0];
 
     const { data, error, isSuccess } = useQuery({
-        queryKey: ["jobsPaged", paginationModel, sortModel],
-        queryFn: () => getPaginatedJobs({
+        queryKey: ["jobsFiltered", paginationModel, sortModel, debouncedFilters],
+        queryFn: () => getFilteredJobs({
             page: paginationModel.page,
             size: paginationModel.pageSize,
             sortBy: sort?.field || "postedDate",
             sortDir: sort?.sort || "desc",
-        })
+            position: debouncedFilters.position || undefined,
+            company: debouncedFilters.company || undefined,
+            location: debouncedFilters.location || undefined,
+            mode: debouncedFilters.mode || undefined,
+            status: debouncedFilters.status || undefined,
+        }),
+        placeholderData: keepPreviousData,
     });
 
     const mutation = useMutation({
         mutationFn: deleteJob,
         onSuccess: () => {
             setOpen(true);
-            queryClient.invalidateQueries({ queryKey: ['jobsPaged'] });
+            queryClient.invalidateQueries({ queryKey: ['jobsFiltered'] });
             queryClient.invalidateQueries({ queryKey: ['jobs'] })
         },
         onError: (err) => {
@@ -53,11 +79,28 @@ function JobList() {
         }
     });
 
+    const handleFilterChange = (field: string, value: string) => {
+        setFilters((prev) => ({ ...prev, [field]: value }));
+    };
+
+    const handleJumpToPage = () => {
+        const pageNum = parseInt(jumpToPage, 10);
+        const totalPages = data?.totalPages ?? 1;
+
+        if (isNaN(pageNum) || pageNum < 1 || pageNum > totalPages) {
+            return;
+        }
+
+        setPaginationModel((prev) => ({ ...prev, page: pageNum - 1 }));
+        setJumpToPage("");
+    };
+
     const columns: GridColDef[] = [
         {
             field: 'position',
             headerName: 'Position',
             width: 150,
+            filterable: false,
             renderCell: (params) => (
                 <span
                     style={{
@@ -75,14 +118,15 @@ function JobList() {
                 </span>
             )
         },
-        { field: 'company', headerName: 'Company', width: 150 },
-        { field: 'location', headerName: 'Location', width: 150 },
-        { field: 'skills', headerName: 'Skills', width: 200 },
-        { field: 'mode', headerName: 'Mode', width: 120 },
+        { field: 'company', headerName: 'Company', width: 150, filterable: false},
+        { field: 'location', headerName: 'Location', width: 150, filterable: false },
+        { field: 'skills', headerName: 'Skills', width: 200, filterable: false,},
+        { field: 'mode', headerName: 'Mode', width: 120, filterable: false,},
         {
             field: 'description',
             headerName: 'Description',
             width: 200,
+            filterable: false,
             renderCell: (params) => (
                 <span>
                     {params.value?.length > 50 ? params.value.slice(0, 50) + '...' : params.value}
@@ -90,8 +134,8 @@ function JobList() {
             )
         },
 
-        { field: 'status', headerName: 'Status', width: 120 },
-        { field: 'postedDate', headerName: 'Posted Date', width: 150 },
+        { field: 'status', headerName: 'Status', width: 120, filterable: false},
+        { field: 'postedDate', headerName: 'Posted Date', width: 150, filterable: false},
         {
             field: 'edit',
             headerName: '',
@@ -141,14 +185,68 @@ function JobList() {
 
     return (
         <>
-            <Stack direction="row" alignItems="center" justifyContent="space-between" 
-            sx={{"& .MuiButton-root": {
-                textTransform: "none",
-                                    },
+            <Stack direction="row" alignItems="center" justifyContent="space-between"
+                sx={{
+                    "& .MuiButton-root": {
+                        textTransform: "none",
+                    },
                 }}>
                 <AddJob />
                 <Button onClick={goToDashboard}>📊 Dashboard</Button>
             </Stack>
+
+            <Stack direction="row" alignItems="center" spacing={1} sx={{ mt: 2, mb: 1 }}>
+                <TextField
+                    size="small"
+                    label="Position"
+                    value={filters.position}
+                    onChange={(e) => handleFilterChange("position", e.target.value)}
+                    sx={{ width: 150 }}
+                />
+                <TextField
+                    size="small"
+                    label="Company"
+                    value={filters.company}
+                    onChange={(e) => handleFilterChange("company", e.target.value)}
+                    sx={{ width: 150 }}
+                />
+                <TextField
+                    size="small"
+                    label="Location"
+                    value={filters.location}
+                    onChange={(e) => handleFilterChange("location", e.target.value)}
+                    sx={{ width: 150 }}
+                />
+                <TextField
+                    size="small"
+                    select
+                    label="Mode"
+                    value={filters.mode}
+                    onChange={(e) => handleFilterChange("mode", e.target.value)}
+                    sx={{ width: 130 }}
+                >
+                    <MenuItem value="">All</MenuItem>
+                    <MenuItem value="Remote">Remote</MenuItem>
+                    <MenuItem value="Onsite">Onsite</MenuItem>
+                    <MenuItem value="Hybrid">Hybrid</MenuItem>
+                </TextField>
+                <TextField
+                    size="small"
+                    select
+                    label="Status"
+                    value={filters.status}
+                    onChange={(e) => handleFilterChange("status", e.target.value)}
+                    sx={{ width: 150 }}
+                >
+                    <MenuItem value="">All</MenuItem>
+                    <MenuItem value="APPLIED">APPLIED</MenuItem>
+                    <MenuItem value="INTERVIEWING">INTERVIEWING</MenuItem>
+                    <MenuItem value="OFFER">OFFER</MenuItem>
+                    <MenuItem value="REJECTED">REJECTED</MenuItem>
+                    <MenuItem value="INTERESTED">INTERESTED</MenuItem>
+                </TextField>
+            </Stack>
+
             <DataGrid
                 rows={data?.content || []}
                 columns={columns}
@@ -162,7 +260,6 @@ function JobList() {
                 pageSizeOptions={[10, 20, 50]}
                 disableRowSelectionOnClick={true}
                 getRowId={(row) => row.id}
-                slots={{ toolbar: GridToolbar }}
                 autoHeight
                 sx={{
                     '& .MuiDataGrid-columnHeaderTitle': {
@@ -173,7 +270,32 @@ function JobList() {
                         textTransform: 'none',
                     },
                 }}
+
+
             />
+
+            <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={1} sx={{ mt: 1 }}>
+                <span>
+                    Page {paginationModel.page + 1} of {data?.totalPages ?? 1}
+                </span>
+                <TextField
+                    size="small"
+                    type="number"
+                    value={jumpToPage}
+                    onChange={(e) => setJumpToPage(e.target.value)}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                            handleJumpToPage();
+                        }
+                    }}
+                    sx={{ width: 80 }}
+                    inputProps={{ min: 1, max: data?.totalPages ?? 1 }}
+                />
+                <Button size="small" onClick={handleJumpToPage}>
+                    Go
+                </Button>
+            </Stack>
+
 
             <Snackbar
                 open={open}
