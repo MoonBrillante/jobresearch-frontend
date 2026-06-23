@@ -2,7 +2,7 @@
 
 Job Research Application is a full-stack web app for organizing and researching job opportunities.
 
-It provides a React frontend where users can create, view, edit, and delete job records, access detailed job information, and explore dashboard insights including total jobs, top skills, target roles, and work mode distribution. The frontend communicates with a Spring Boot backend via REST APIs, with JWT-based authentication and server-side pagination and sorting for the job list.
+It provides a React frontend where users can create, view, edit, and delete job records, access detailed job information, and explore dashboard insights including total jobs, top skills, target roles, and work mode distribution. The frontend communicates with a Spring Boot backend via REST APIs, with JWT-based authentication, field-based filtering, server-side pagination, server-side sorting, and direct page navigation for the job list.
 
 ---
 
@@ -10,8 +10,10 @@ It provides a React frontend where users can create, view, edit, and delete job 
 
 - JWT-based authentication with protected routes
 - Job management table with MUI DataGrid and detail view
+- Field-based filters for position, company, location, work mode, and status
+- Server-side pagination and sorting for handling larger job datasets efficiently
+- Direct page jump input for navigating to a specific page
 - Dialog-based create, edit, and delete flows for managing job records
-- Server-side pagination for handling larger job datasets efficiently
 - Dashboard with summary cards, application status, top skills, target roles, and work mode insights
 - React Query for API data fetching, async state management, and caching
 - SPA navigation with React Router
@@ -28,6 +30,7 @@ It provides a React frontend where users can create, view, edit, and delete job 
 - React Router v6
 - React Query (v4+ from `@tanstack/react-query`)
 - Chart.js & react-chartjs-2 for dashboard charts
+- Vercel
 
 ---
 
@@ -35,7 +38,7 @@ It provides a React frontend where users can create, view, edit, and delete job 
 
 ```
 src/
-├── api/                 # Axios config and job API methods
+├── api/                 # Axios config and job API methods, including filtered job list requests
 ├── components/          # Main UI components
 │   ├── layout/          # Shared layout and route protection
 │   │   ├── AppLayout.tsx
@@ -45,7 +48,7 @@ src/
 │   ├── EditJob.tsx
 │   ├── JobDetail.tsx
 │   ├── JobDialogContent.tsx   # Form inputs used in Add/Edit dialogs
-│   ├── JobList.tsx
+│   ├── JobList.tsx            # Job table with filters, sorting, pagination, and page jump
 │   └── Login.tsx
 ├── contexts/
 │   └── AuthContext.tsx    # JWT auth state, login, and logout
@@ -60,10 +63,12 @@ src/
 
 This app connects to a RESTful backend built with:
 - Spring Boot
-- PostgreSQL
+- PostgreSQL hosted on Supabase
 - JWT authentication
+- Server-side filtering, sorting, and pagination
 
-The backend is deployed on Render, and the frontend communicates with it using the base URL specified in the .env file.
+The backend is deployed on Render, and the frontend is deployed on Vercel.
+The job list uses the `/api/jobs/filter` endpoint for field-based filtering, sorting, and pagination.
 
 ---
 
@@ -95,4 +100,6 @@ The dashboard fetches job data from the backend API with React Query, transforms
 Frontend: Deployed using Vercel
 
 Backend: Deployed using Render
+
+Database: PostgreSQL hosted on Supabase
 
