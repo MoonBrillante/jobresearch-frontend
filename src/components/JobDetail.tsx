@@ -35,7 +35,8 @@ function JobDetail() {
       <strong>Skills:</strong> {Array.isArray(job.skills) ? job.skills.join(', ') : job.skills}
     </Typography>
     <Typography  paragraph><strong>Mode:</strong> {job.mode}</Typography>
-    <Typography  paragraph><strong>Description:</strong> {job.description}</Typography>    
+    <Typography  paragraph><strong>Description:</strong> {job.description}</Typography>  
+    <Typography  paragraph><strong>Notes:</strong> {job.notes}</Typography>  
     <Typography  paragraph><strong>Status:</strong> {job.status}</Typography>
     <Typography  paragraph><strong>Posted Date:</strong> {job.postedDate}</Typography>
     

@@ -133,7 +133,7 @@ function JobList() {
                 </span>
             )
         },
-
+        { field: 'notes', headerName: 'notes', width: 120, filterable: false,},
         { field: 'status', headerName: 'Status', width: 120, filterable: false},
         { field: 'postedDate', headerName: 'Posted Date', width: 150, filterable: false},
         {
