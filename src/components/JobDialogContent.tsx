@@ -59,6 +59,16 @@ function JobDialogContent({
                     />
 
                     <TextField
+                        label="Notes"
+                        name="notes"
+                        value={job.notes}
+                        onChange={handleChange}
+                        fullWidth
+                        multiline
+                        minRows={2}
+                    />
+
+                    <TextField
                         select
                         label="Status"
                         name="status"
