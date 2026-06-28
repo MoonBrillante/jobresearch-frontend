@@ -19,16 +19,31 @@ function JobDialogContent({
         <>
             <DialogContent>
                 <Stack spacing={2} mt={1}>
-                    <TextField label="Position" name="position" value={job.position} onChange={handleChange} />
+                    <TextField 
+                        label="Position" 
+                        name="position" 
+                        value={job.position} 
+                        onChange={handleChange} 
+                    />
+                    
                     <TextField 
                         label="URL" 
                         name="url" 
-                        value={job.url} 
+                        value={job.url ?? ''} 
                         onChange={handleChange}  
                         fullWidth
                     />
-                    <TextField label="Company" name="company" value={job.company} onChange={handleChange} />
-                    <TextField label="Location" name="location" value={job.location} onChange={handleChange} />
+
+                    <TextField 
+                        label="Company" 
+                        name="company" 
+                        value={job.company} 
+                        onChange={handleChange} 
+                    />
+
+                    <TextField 
+                        label="Location" 
+                        name="location" value={job.location} onChange={handleChange} />
 
                     <TextField
                         select
@@ -67,7 +82,7 @@ function JobDialogContent({
                         select
                         label="Status"
                         name="status"
-                        value={job.status}
+                        value={job.status ?? ''}
                         onChange={handleChange}
                     >
                         <MenuItem value="INTERESTED">Interested</MenuItem>

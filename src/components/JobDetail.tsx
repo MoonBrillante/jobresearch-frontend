@@ -26,19 +26,23 @@ function JobDetail() {
     return <div>Job not found.</div>;
   }
 
+  const url = job.url ?? '';
+
   return (
     <Box mb={2} sx={{ padding: 4 }}>
       <Typography variant="h3" gutterBottom>{job.position}</Typography>
       <Typography paragraph><strong>Company:</strong> {job.company}</Typography>
 
-      {job.url && (
-        <Typography paragraph>
-          <strong>URL:</strong>{' '}
-          <a href={job.url} target="_blank" rel="noopener noreferrer">
-            {job.url}
+      <Typography paragraph>
+        <strong>URL:</strong>{' '}
+        {url ? (
+          <a href={url} target="_blank" rel="noopener noreferrer">
+            {url}
           </a>
-        </Typography>
-      )}
+        ) : (
+          ''
+        )}
+      </Typography>
       
       <Typography paragraph><strong>Location:</strong> {job.location}</Typography>
       <Typography paragraph><strong>Mode:</strong> {job.mode}</Typography>
