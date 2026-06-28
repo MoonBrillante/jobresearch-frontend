@@ -6,18 +6,12 @@ import MenuItem from '@mui/material/MenuItem';
 
 type DialogFormProps = {
     job: Job;
-    handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    skillsInput: string;
-    toolsInput: string;
-    setSkillsInput: (value: string) => void;
-    setToolsInput: (value: string) => void;
+    handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }
 
 function JobDialogContent({
     job,
     handleChange,
-    skillsInput,
-    setSkillsInput,
 }: DialogFormProps) {
 
 
@@ -26,14 +20,15 @@ function JobDialogContent({
             <DialogContent>
                 <Stack spacing={2} mt={1}>
                     <TextField label="Position" name="position" value={job.position} onChange={handleChange} />
+                    <TextField 
+                        label="URL" 
+                        name="url" 
+                        value={job.url} 
+                        onChange={handleChange}  
+                        fullWidth
+                    />
                     <TextField label="Company" name="company" value={job.company} onChange={handleChange} />
                     <TextField label="Location" name="location" value={job.location} onChange={handleChange} />
-                    <TextField
-                        label="Skills"
-                        name="skillsInput"
-                        value={skillsInput}
-                        onChange={(e) => setSkillsInput(e.target.value)}
-                    />
 
                     <TextField
                         select

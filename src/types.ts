@@ -10,6 +10,10 @@ export type Job = {
   benefits: string;
   status: string;
   source: string;
+  url: string;
+  salary: string;
+  externalJobId: string;
+  scrapedFrom: string;
   postedDate: string;
   notes: string;
 };

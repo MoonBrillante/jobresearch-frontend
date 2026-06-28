@@ -30,10 +30,17 @@ function JobDetail() {
     <Box mb={2} sx={{ padding: 4 }}>
       <Typography variant="h3" gutterBottom>{job.position}</Typography>
       <Typography paragraph><strong>Company:</strong> {job.company}</Typography>
+
+      {job.url && (
+        <Typography paragraph>
+          <strong>URL:</strong>{' '}
+          <a href={job.url} target="_blank" rel="noopener noreferrer">
+            {job.url}
+          </a>
+        </Typography>
+      )}
+      
       <Typography paragraph><strong>Location:</strong> {job.location}</Typography>
-      <Typography paragraph>
-        <strong>Skills:</strong> {Array.isArray(job.skills) ? job.skills.join(', ') : job.skills}
-      </Typography>
       <Typography paragraph><strong>Mode:</strong> {job.mode}</Typography>
       <Typography paragraph><strong>Description:</strong> {job.description}</Typography>
       <Typography paragraph><strong>Notes:</strong>{' '}

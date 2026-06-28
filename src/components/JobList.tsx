@@ -72,7 +72,7 @@ function JobList() {
         onSuccess: () => {
             setOpen(true);
             queryClient.invalidateQueries({ queryKey: ['jobsFiltered'] });
-            queryClient.invalidateQueries({ queryKey: ['jobs'] })
+            queryClient.invalidateQueries({ queryKey: ['jobs'] });
         },
         onError: (err) => {
             console.error(err);
@@ -118,9 +118,9 @@ function JobList() {
                 </span>
             )
         },
+        { field: 'url', headerName: 'URL', width: 200, filterable: false,},
         { field: 'company', headerName: 'Company', width: 150, filterable: false},
         { field: 'location', headerName: 'Location', width: 150, filterable: false },
-        { field: 'skills', headerName: 'Skills', width: 200, filterable: false,},
         { field: 'mode', headerName: 'Mode', width: 120, filterable: false,},
         {
             field: 'description',
@@ -133,7 +133,7 @@ function JobList() {
                 </span>
             )
         },
-        { field: 'notes', headerName: 'notes', width: 120, filterable: false,},
+        { field: 'notes', headerName: 'Notes', width: 120, filterable: false,},
         { field: 'status', headerName: 'Status', width: 120, filterable: false},
         { field: 'postedDate', headerName: 'Posted Date', width: 150, filterable: false},
         {

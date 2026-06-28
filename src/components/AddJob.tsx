@@ -16,12 +16,6 @@ function AddJob() {
     const [open, setOpen] = useState(false);
     const [job, setJob] = useState<Job>(emptyJob);
 
-
-    const [skillsInput, setSkillsInput] = useState('');
-    const [toolsInput, setToolsInput] = useState('');
-
-
-
     const { mutate } = useMutation<Job, AxiosError, Omit<Job, 'id'>>({
         mutationFn: addJob,
         onSuccess: () => {
@@ -45,23 +39,19 @@ function AddJob() {
         setOpen(false);
     };
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setJob({ ...job, [event.target.name]: event.target.value });
-    }
-
+    };
     const handleSave = () => {
         if (!job.position.trim() || !job.status.trim()) {
             alert('Position and status are required.');
             return;
-        }
+        };
 
 
         const { id, ...jobWithoutId } = job;
         const jobToSubmit: Omit<Job, 'id'> = {
             ...jobWithoutId,
-            skills: skillsInput.split(',').map(s => s.trim()).filter(Boolean),
-            tools: toolsInput.split(',').map(t => t.trim()).filter(Boolean),
-
         };
         Object.entries(jobToSubmit).forEach(([key, value]) => {
             if (value === '') {
@@ -71,24 +61,18 @@ function AddJob() {
 
         mutate(jobToSubmit);
         setJob(emptyJob);
-        setSkillsInput('');
-        setToolsInput('');
-        handleClose(); console.log(jobToSubmit)
+        handleClose(); 
+        console.log(jobToSubmit);
     }
 
     return (
         <>
             <Button onClick={handleClickOpen}>New Job</Button>
-            <Dialog open={open} onClose={handleClose}>
+            <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
                 <DialogTitle>New job</DialogTitle>
                 <JobDialogContent
                     job={job}
                     handleChange={handleChange}
-                    skillsInput={skillsInput}
-                    toolsInput={toolsInput}
-                    setSkillsInput={setSkillsInput}
-                    setToolsInput={setToolsInput}
-
                 />
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>

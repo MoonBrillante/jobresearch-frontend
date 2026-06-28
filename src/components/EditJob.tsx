@@ -3,7 +3,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import JobDialogContent from './JobDialogContent';
-import { Job, JobEntry} from '../types';
+import { Job, JobEntry } from '../types';
 import { emptyJob } from '../jobConstants';
 import { updateJob } from '../api/jobapi';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -22,9 +22,6 @@ function EditJob({ job }: FormProps) {
     const [open, setOpen] = useState(false);
     const [editedJob, setEditedJob] = useState<Job>(emptyJob);
 
-    const [skillsInput, setSkillsInput] = useState('');
-    const [toolsInput, setToolsInput] = useState('');
-
     const { mutate } = useMutation<Job, Error, JobEntry>({
         mutationFn: updateJob,
 
@@ -38,35 +35,32 @@ function EditJob({ job }: FormProps) {
     });
 
     const handleClickOpen = () => {
-        setSkillsInput(job.skills.join(', '));
-        setToolsInput(job.tools.join(', '));
+        setEditedJob({
+            ...emptyJob,
+            ...job,
+            skills: job.skills ?? [],
+            tools: job.tools ?? [],
+            url: job.url ?? '',
+            salary: job.salary ?? '',
+            externalJobId: job.externalJobId ?? '',
+            scrapedFrom: job.scrapedFrom ?? '',
+            description: job.description ?? '',
+            benefits: job.benefits ?? '',
+            source: job.source ?? '',
+            postedDate: job.postedDate ?? '',
+            notes: job.notes ?? '',
+        });
 
         setOpen(true);
-        setEditedJob({
-            id: job.id,
-            position: job.position,
-            company: job.company,
-            location: job.location,
-            skills: job.skills,
-            tools: job.tools,
-            mode: job.mode,
-            description: job.description,
-            benefits: job.benefits,
-            status: job.status,
-            source: job.source,
-            postedDate: job.postedDate,
-            notes: job.notes
-        });
     };
 
     const handleClose = () => {
         setOpen(false);
     };
+    
     const handleSave = () => {
         const updatedJob = {
             ...editedJob,
-            skills: skillsInput.split(',').map(s => s.trim()).filter(Boolean),
-            tools: toolsInput.split(',').map(t => t.trim()).filter(Boolean),
         };
 
         const jobEntry: JobEntry = { job: updatedJob, id: updatedJob.id };
@@ -75,9 +69,9 @@ function EditJob({ job }: FormProps) {
         setOpen(false);
     };
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setEditedJob({ ...editedJob, [event.target.name]: event.target.value });
-    }
+    };
 
     return (
         <>
@@ -87,15 +81,11 @@ function EditJob({ job }: FormProps) {
                     <EditIcon fontSize="small" />
                 </IconButton>
             </Tooltip>
-            <Dialog open={open} onClose={handleClose}>
+            <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
                 <DialogTitle>Edit job</DialogTitle>
                 <JobDialogContent
                     job={editedJob}
                     handleChange={handleChange}
-                    skillsInput={skillsInput}
-                    toolsInput={toolsInput}
-                    setSkillsInput={setSkillsInput}
-                    setToolsInput={setToolsInput}
                 />
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>

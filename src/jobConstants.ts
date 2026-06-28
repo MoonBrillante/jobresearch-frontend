@@ -12,6 +12,10 @@ export const emptyJob: Job = {
     benefits: '',
     status: '',
     source: '',
+    url: '',
+    salary: '',
+    externalJobId: '',
+    scrapedFrom: '',
     postedDate: '',
     notes: '',
 };
