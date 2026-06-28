@@ -15,6 +15,7 @@ It provides a React frontend where users can create, view, edit, and delete job 
 - Direct page jump input for navigating to a specific page
 - Dialog-based create, edit, and delete flows for managing job records
 - Dashboard with summary cards, application status, top skills, target roles, and work mode insights
+- Automated multi-source job scraping pipeline (n8n) with keyword/location filtering, deduplication, and dual sync to the database and a review spreadsheet
 - React Query for API data fetching, async state management, and caching
 - SPA navigation with React Router
 - Frontend deployed on Vercel
@@ -30,6 +31,7 @@ It provides a React frontend where users can create, view, edit, and delete job 
 - React Router v6
 - React Query (v4+ from `@tanstack/react-query`)
 - Chart.js & react-chartjs-2 for dashboard charts
+- n8n (workflow automation for scheduled, multi-source job scraping)
 - Vercel
 
 ---
@@ -69,6 +71,22 @@ This app connects to a RESTful backend built with:
 
 The backend is deployed on Render, and the frontend is deployed on Vercel.
 The job list uses the `/api/jobs/filter` endpoint for field-based filtering, sorting, and pagination.
+
+---
+
+## 🤖 Automated Job Discovery (n8n)
+Job listings aren't only added manually — they're also continuously collected by an automated n8n workflow that scrapes multiple job boards, filters and normalizes the results, and syncs them into both the backend database and a Google Sheet (used as a manual review log).
+
+
+- Scheduled trigger: runs on a recurring schedule with no manual intervention required
+- Multi-source ingestion: pulls listings from Jooble, WeWorkRemotely (RSS), and a generic HTTP branch covering RemoteOK / Remotive / Himalayas, routed by a single platform-based Switch node
+- Shared filtering rules: a centralized rules node applies target-role keyword matching, seniority/irrelevant-role exclusions, and location allow/block lists consistently across every source
+- Deduplication: results are deduplicated within each run, then checked against previously-processed listings before anything is written downstream
+- Dual write targets: Job listings are appended to a Google Sheet for quick manual review and POSTed to the backend /api/jobs endpoint, which is the system of record
+- Cold-start resilient: since the backend runs on Render's free tier and can spin down when idle, the workflow pings a lightweight /health endpoint with automatic retries before authenticating, so a sleeping backend doesn't cause a scheduled run to fail
+
+
+Sources covered: Jooble · WeWorkRemotely · RemoteOK · Remotive · Himalayas
 
 ---
 
