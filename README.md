@@ -75,18 +75,15 @@ The job list uses the `/api/jobs/filter` endpoint for field-based filtering, sor
 ---
 
 ## 🤖 Automated Job Discovery (n8n)
-Job listings aren't only added manually — they're also continuously collected by an automated n8n workflow that scrapes multiple job boards, filters and normalizes the results, and syncs them into both the backend database and a Google Sheet (used as a manual review log).
+An automated n8n workflow collects job listings from multiple platforms on a recurring schedule, filters and normalizes the results, and syncs new jobs to both the backend database and a Google Sheet used for manual review.
 
 
-- Scheduled trigger: runs on a recurring schedule with no manual intervention required
-- Multi-source ingestion: pulls listings from Jooble, WeWorkRemotely (RSS), and a generic HTTP branch covering RemoteOK / Remotive / Himalayas, routed by a single platform-based Switch node
+- Scheduled trigger: starts the workflow at defined intervals
+- Multi-source ingestion: collects job listings from Jooble, We Work Remotely, RemoteOK, Remotive, and Himalayas via API and RSS
 - Shared filtering rules: a centralized rules node applies target-role keyword matching, seniority/irrelevant-role exclusions, and location allow/block lists consistently across every source
 - Deduplication: results are deduplicated within each run, then checked against previously-processed listings before anything is written downstream
-- Dual write targets: Job listings are appended to a Google Sheet for quick manual review and POSTed to the backend /api/jobs endpoint, which is the system of record
+- Dual write targets: Job listings are appended to a Google Sheet for quick manual review and a backend REST API (the application's database of record).
 - Cold-start resilient: since the backend runs on Render's free tier and can spin down when idle, the workflow pings a lightweight /health endpoint with automatic retries before authenticating, so a sleeping backend doesn't cause a scheduled run to fail
-
-
-Sources covered: Jooble · WeWorkRemotely · RemoteOK · Remotive · Himalayas
 
 ---
 
