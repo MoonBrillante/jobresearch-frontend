@@ -27,6 +27,64 @@ ChartJS.register(
     Legend,
 );
 
+function normalizeRole(position: string): string {
+    const t = position.toLowerCase();
+
+    if (
+        t.includes('support') ||
+        t.includes('helpdesk') ||
+        t.includes('help desk')
+    ) {
+        return 'Support / Technical Support';
+    }
+
+    if (
+        t.includes('full stack') ||
+        t.includes('full-stack') ||
+        t.includes('fullstack')
+    ) {
+        return 'Full Stack Developer';
+    }
+
+    if (
+        t.includes('frontend') ||
+        t.includes('front-end') ||
+        t.includes('front end') ||
+        (t.includes('react') && !t.includes('backend') && !t.includes('back-end'))
+    ) {
+        return 'Frontend Developer';
+    }
+
+    if (
+        t.includes('backend') ||
+        t.includes('back-end') ||
+        t.includes('back end')
+    ) {
+        return 'Backend Developer';
+    }
+
+    if (
+        t.includes('software engineer') ||
+        t.includes('software developer')
+    ) {
+        return 'Software Engineer';
+    }
+
+    if (t.includes('web developer')) {
+        return 'Web Developer';
+    }
+
+    if (t.includes('sap') || t.includes('abap')) {
+        return 'SAP / ERP';
+    }
+
+    if (t.includes('java developer') || t.includes('java engineer')) {
+        return 'Java Developer';
+    }
+
+    return 'Other';
+}
+
 export default function DashboardTabs() {
     const navigate = useNavigate();
     const [tab, setTab] = useState(0);
@@ -43,19 +101,35 @@ export default function DashboardTabs() {
     if (isLoading) return <div>Loading...</div>;
     if (isError) return <div>Error loading jobs.</div>;
 
-    const groupCountBy = (key: keyof Job, fallbackLabel = 'Unknown') => {
+    const groupCountBy = (key: keyof Job, fallbackLabel = 'Unknown', topN = 15) => {
         const map = new Map<string, number>();
+
         jobs.forEach((job) => {
             const rawKey = job[key];
-            const groupKey = rawKey ? String(rawKey) : fallbackLabel;
+            const rawValue = rawKey ? String(rawKey) : fallbackLabel;
+
+            const groupKey = key === 'position' ? normalizeRole(rawValue) : rawValue;
+
             map.set(groupKey, (map.get(groupKey) || 0) + 1);
         });
 
         // Sorting logic
         const sorted = Array.from(map.entries()).sort((a, b) => b[1] - a[1]);
+
+        if (sorted.length <= topN) {
+            return {
+                labels: sorted.map(([label]) => label),
+                counts: sorted.map(([, count]) => count),
+            };
+        }
+
+        const top = sorted.slice(0, topN);
+        const otherCount = sorted.slice(topN).reduce((sum, [, count]) => sum + count, 0);
+        const otherRolesCount = sorted.slice(topN).length;
+
         return {
-            labels: sorted.map(([label]) => label),
-            counts: sorted.map(([, count]) => count),
+            labels: [...top.map(([label]) => label), `Other (${otherRolesCount} more)`],
+            counts: [...top.map(([, count]) => count), otherCount],
         };
     };
 
