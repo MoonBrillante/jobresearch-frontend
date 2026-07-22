@@ -27,7 +27,7 @@ ChartJS.register(
     Legend,
 );
 
-function normalizeRole(position: string): string {
+export function normalizeRole(position: string): string {
     const t = position.toLowerCase();
 
     if (
