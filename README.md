@@ -110,6 +110,36 @@ The dashboard fetches job data from the backend API with React Query, transforms
 
 ---
 
+## 🧩 Testing
+
+This project includes unit and component tests covering core UI logic, 
+the API client layer, and authentication state management.
+
+### Run tests locally
+
+```bash
+npm run test
+```
+
+This runs Vitest in watch mode. To run once and exit (e.g. for CI):
+
+```bash
+npx vitest run
+```
+
+### Test coverage
+
+| File | Type | What it covers |
+|---|---|---|
+| `DashboardTabs.tsx` (`normalizeRole`) | Unit test | Role classification based on job title keywords, including the fallback case |
+| `api/jobapi.ts` | Unit test (mocked `axios`) | Request parameters for `getFilteredJobs`, success/failure behavior for `deleteJob` |
+| `contexts/AuthContext.tsx` | Unit test | Token storage in `sessionStorage` and authentication state updates during `login`/`logOut` |
+| `components/Login.tsx` | Component test (React Testing Library) | Form validation messaging when required fields are empty |
+
+> Note: The request-parameter assembly logic in `JobList.tsx` is not yet covered by tests, 
+> as it's currently defined inline within the component. Extracting it into a standalone, 
+> testable function is planned for a future update.
+
 ## 🚀 Deployment
 
 Frontend: Deployed using Vercel
