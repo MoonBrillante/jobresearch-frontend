@@ -28,57 +28,57 @@ ChartJS.register(
 );
 
 export function normalizeRole(position: string): string {
-    const t = position.toLowerCase();
+    const normalizedPosition = position.toLowerCase();
 
     if (
-        t.includes('support') ||
-        t.includes('helpdesk') ||
-        t.includes('help desk')
+        normalizedPosition.includes('support') ||
+        normalizedPosition.includes('helpdesk') ||
+        normalizedPosition.includes('help desk')
     ) {
         return 'Support / Technical Support';
     }
 
     if (
-        t.includes('full stack') ||
-        t.includes('full-stack') ||
-        t.includes('fullstack')
+        normalizedPosition.includes('full stack') ||
+        normalizedPosition.includes('full-stack') ||
+        normalizedPosition.includes('fullstack')
     ) {
         return 'Full Stack Developer';
     }
 
     if (
-        t.includes('frontend') ||
-        t.includes('front-end') ||
-        t.includes('front end') ||
-        (t.includes('react') && !t.includes('backend') && !t.includes('back-end'))
+        normalizedPosition.includes('frontend') ||
+        normalizedPosition.includes('front-end') ||
+        normalizedPosition.includes('front end') ||
+        (normalizedPosition.includes('react') && !normalizedPosition.includes('backend') && !normalizedPosition.includes('back-end'))
     ) {
         return 'Frontend Developer';
     }
 
     if (
-        t.includes('backend') ||
-        t.includes('back-end') ||
-        t.includes('back end')
+        normalizedPosition.includes('backend') ||
+        normalizedPosition.includes('back-end') ||
+        normalizedPosition.includes('back end')
     ) {
         return 'Backend Developer';
     }
 
     if (
-        t.includes('software engineer') ||
-        t.includes('software developer')
+        normalizedPosition.includes('software engineer') ||
+        normalizedPosition.includes('software developer')
     ) {
         return 'Software Engineer';
     }
 
-    if (t.includes('web developer')) {
+    if (normalizedPosition.includes('web developer')) {
         return 'Web Developer';
     }
 
-    if (t.includes('sap') || t.includes('abap')) {
+    if (normalizedPosition.includes('sap') || normalizedPosition.includes('abap')) {
         return 'SAP / ERP';
     }
 
-    if (t.includes('java developer') || t.includes('java engineer')) {
+    if (normalizedPosition.includes('java developer') || normalizedPosition.includes('java engineer')) {
         return 'Java Developer';
     }
 

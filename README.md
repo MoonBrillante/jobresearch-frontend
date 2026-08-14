@@ -140,6 +140,7 @@ npx vitest run
 > as it's currently defined inline within the component. Extracting it into a standalone, 
 > testable function is planned for a future update.
 
+
 ## 🚀 Deployment
 
 Frontend: Deployed using Vercel
